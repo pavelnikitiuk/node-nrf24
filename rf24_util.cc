@@ -12,7 +12,7 @@ v8::Local<v8::Value> ObjGet(v8::Local<v8::Object> & obj,const std::string & name
 
 uint32_t ObjGetUInt(v8::Local<v8::Object> & obj,const std::string & name) {
     auto v=ObjGet(obj,name);
-    return (v->IsUint32()) ? v->Uint32Value() : 0;
+    return (v->IsUint32()) ? v->(Nan::GetCurrentContext()).FromJust() : 0;
 }
 
 int32_t ObjGetInt(v8::Local<v8::Object> & obj,const std::string & name) {
@@ -27,7 +27,7 @@ bool ObjGetBool(v8::Local<v8::Object> & obj,const std::string & name) {
 
 bool ConvertHexAddress(v8::Local<v8::String> val,uint8_t *converted,uint8_t size) {
   bool res=false;
-  v8::String::Utf8Value value(val);
+  Nan::Utf8String value(val);
   int l=value.length(),i;
   char tmp[3];
   tmp[2]='\0';
